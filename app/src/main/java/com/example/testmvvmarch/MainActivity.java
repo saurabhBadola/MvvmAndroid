@@ -12,23 +12,13 @@ import android.view.View;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity<MyViewModel.MyState> {
 
+    MyViewModel myViewModel;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-        final MyViewModel myViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
-        myViewModel.listen().observe(this, new Observer<MyViewModel.MyState>() {
-            @Override
-            public void onChanged(MyViewModel.MyState state) {
-                Log.d("Main.TAG", "onChanged: "+state);
-            }
-        });
-
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,5 +47,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    BaseViewModel<MyViewModel.MyState> createViewModel() {
+        myViewModel = ViewModelProviders.of(this).get(MyViewModel.class);
+        return myViewModel;
+    }
+
+    @Override
+    void onStateChanged(MyViewModel.MyState oldState, MyViewModel.MyState newState) {
+        Log.d("Main.Act", "onStateChanged: Old: "+oldState+"\tNew: "+newState);
     }
 }

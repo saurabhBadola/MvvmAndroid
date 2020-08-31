@@ -1,43 +1,39 @@
 package com.example.testmvvmarch;
+
+import android.util.Log;
+import androidx.databinding.Bindable;
+
 public class MyViewModel extends BaseViewModel<MyViewModel.MyState> {
 
-    public void setFirstName(String firstName){
+
+    public void setFirstName(String firstName) {
         MyState state = getCurrentState();
         state.setFirstName(firstName);
-        setState(state);
-}
-
-    public void setLastName(String lastName){
-        MyState state = getCurrentState();
-        state.setLastName(lastName);
-        setState(state);
     }
 
-    public void setPhoneNumber(String phoneNumber){
+    public void setLastName(String lastName) {
+        MyState state = getCurrentState();
+        state.setLastName(lastName);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
         MyState state = getCurrentState();
         state.setPhoneNumber(phoneNumber);
-        setState(state);
     }
 
     @Override
     MyState createInitialState() {
-        return new MyState("Default","Default","Default");
-    }
-
-    @Override
-    public void addOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback callback) {
-
+        return new MyState("Default", "Default", "Default");
     }
 
 
-    static class MyState extends State{
+    public static class MyState extends State {
+
+        @Bindable
         private String firstName;
+        @Bindable
         private String lastName;
+        @Bindable
         private String phoneNumber;
 
         public MyState(String firstName, String lastName, String phoneNumber) {
@@ -46,28 +42,33 @@ public class MyViewModel extends BaseViewModel<MyViewModel.MyState> {
             this.phoneNumber = phoneNumber;
         }
 
+
         public String getFirstName() {
             return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
         }
 
         public String getLastName() {
             return lastName;
         }
 
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
         public String getPhoneNumber() {
             return phoneNumber;
         }
 
+        public void setFirstName(String firstName) {
+          //  Log.d("Main.Act", "setFirstName: " + firstName);
+            this.firstName = firstName;
+            notifyPropertyChanged(BR.firstName);
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+            notifyPropertyChanged(BR.lastName);
+        }
+
         public void setPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
+            notifyPropertyChanged(BR.phoneNumber);
         }
 
         @Override
@@ -78,5 +79,6 @@ public class MyViewModel extends BaseViewModel<MyViewModel.MyState> {
                     ", phoneNumber='" + phoneNumber + '\'' +
                     '}';
         }
+
     }
 }

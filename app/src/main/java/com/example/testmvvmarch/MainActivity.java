@@ -1,16 +1,8 @@
 package com.example.testmvvmarch;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-
-import java.util.Random;
 
 public class MainActivity extends BaseActivity<MyViewModel.MyState> {
 
@@ -20,33 +12,10 @@ public class MainActivity extends BaseActivity<MyViewModel.MyState> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] names = new String[]{"Aloe","Hari","Ram","Raman","Ankur","Ankit"};
-                myViewModel.setFirstName(names[new Random().nextInt(6)]);
-            }
-        });
+        BlankFragment blankFragment = new BlankFragment();
+        blankFragment.setMyViewModel(myViewModel);
 
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] names = new String[]{"Kumar","Singh","Joshi","Malhotra","Kapoor","Khan"};
-                myViewModel.setLastName(names[new Random().nextInt(6)]);
-            }
-        });
-
-
-
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] names = new String[]{"7877221432","215234434","3245454522","25225452524","222552522","124325332"};
-                myViewModel.setPhoneNumber(names[new Random().nextInt(6)]);
-            }
-        });
-
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_blank,blankFragment).commit();
     }
 
     @Override
@@ -56,7 +25,7 @@ public class MainActivity extends BaseActivity<MyViewModel.MyState> {
     }
 
     @Override
-    void onStateChanged(MyViewModel.MyState oldState, MyViewModel.MyState newState) {
-        Log.d("Main.Act", "onStateChanged: Old: "+oldState+"\tNew: "+newState);
+    void onStateChanged( MyViewModel.MyState newState) {
+        Log.d("Main.Act", "onStateChanged: New: "+newState);
     }
 }
